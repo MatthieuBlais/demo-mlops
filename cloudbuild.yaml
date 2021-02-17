@@ -17,12 +17,12 @@ steps:
   entrypoint: /bin/sh
   args:
     - -c
-    - 'pip install -r requirements.txt && pip install pytest pytest-cov && python -m pytest --cov=converage components/dataprep/tests/'
+    - 'cd components/dataprep/ && pip install -r requirements.txt && pip install pytest pytest-cov && python -m pytest --cov=converage tests/'
 - name: 'python:3.8-slim'
   entrypoint: /bin/sh
   args:
     - -c
-    - 'pip install -r requirements.txt && pip install pytest pytest-cov && python -m pytest --cov=converage components/modeltraining/tests/'
+    - 'cd components/modeltraining/ && pip install -r requirements.txt && pip install pytest pytest-cov && python -m pytest --cov=converage tests/'
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/demo-mlops-dataprep', 'components/dataprep/' ]
 - name: 'gcr.io/cloud-builders/docker'
