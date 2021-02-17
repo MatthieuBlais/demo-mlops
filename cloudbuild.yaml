@@ -13,6 +13,10 @@
 # limitations under the License.
 
 steps:
+- name: 'python'
+  args: ['python3','pytest', 'components/dataprep/'] #run all tests in the tests folder
+- name: 'python'
+  args: ['python3','pytest', 'components/modeltraining/'] #run all tests in the tests folder
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/demo-mlops-dataprep', 'components/dataprep/' ]
 - name: 'gcr.io/cloud-builders/docker'
