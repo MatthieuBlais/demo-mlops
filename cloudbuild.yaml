@@ -16,21 +16,19 @@ steps:
 - name: 'python:3.8-slim'
   entrypoint: /bin/sh
   args:
-    - -c
-    - 'cd components/dataprep/ && pip install -r requirements.txt && pip install pytest pytest-cov && python -m pytest --cov=converage app/tests/'
-- name: 'python:3.8-slim'
+    - deployment/run-tests.sh
+- name: 'gcr.io/cloud-builders/docker'
   entrypoint: /bin/sh
   args:
-    - -c
-    - 'cd components/modeltraining/ && pip install -r requirements.txt && pip install pytest pytest-cov && python -m pytest --cov=converage app/tests/'
-- name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/demo-mlops-dataprep', 'components/dataprep/' ]
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/demo-mlops-dataprep']
-- name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/demo-mlops-modeltraining', 'components/modeltraining/' ]
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/demo-mlops-modeltraining']
-images:
-- 'gcr.io/$PROJECT_ID/demo-mlops-dataprep'
-- 'gcr.io/$PROJECT_ID/demo-mlops-modeltraining'
+    - deployment/build-dockers.sh
+# - name: 'gcr.io/cloud-builders/docker'
+#   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/demo-mlops-dataprep', 'components/dataprep/' ]
+# - name: 'gcr.io/cloud-builders/docker'
+#   args: ['push', 'gcr.io/$PROJECT_ID/demo-mlops-dataprep']
+# - name: 'gcr.io/cloud-builders/docker'
+#   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/demo-mlops-modeltraining', 'components/modeltraining/' ]
+# - name: 'gcr.io/cloud-builders/docker'
+#   args: ['push', 'gcr.io/$PROJECT_ID/demo-mlops-modeltraining']
+# images:
+# - 'gcr.io/$PROJECT_ID/demo-mlops-dataprep'
+# - 'gcr.io/$PROJECT_ID/demo-mlops-modeltraining'
