@@ -27,7 +27,7 @@ for folder in */; do
         image_name="${folder%?}"
         docker build -t gcr.io/$PROJECT_ID/$REPO_NAME/$image_name:$BRANCH_NAME-$SHORT_SHA -t gcr.io/$PROJECT_ID/$REPO_NAME/$image_name:$BRANCH_NAME-latest .
         docker push gcr.io/$PROJECT_ID/$REPO_NAME/$image_name
-        echo "gcr.io/$PROJECT_ID/$REPO_NAME/$image_name:$BRANCH_NAME-$SHORT_SHA" >> _artifacts/images.txt
+        echo "gcr.io/$PROJECT_ID/$REPO_NAME/$image_name:$BRANCH_NAME-$SHORT_SHA" >> ../../_artifacts/images.txt
     else
         echo "No Dockerfile for component $folder. Skipping"
     fi
