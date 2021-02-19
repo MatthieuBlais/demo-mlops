@@ -28,5 +28,5 @@ steps:
     - 'REPO_NAME=$REPO_NAME'
 artifacts:
   objects:
-    location: 'gs://$PROJECT_ID-mlops-deployment/cloudbuild/$REPO_NAME/$BRANCH_NAME/$BUILD_ID/'
+    location: 'gs://$PROJECT_ID-mlops-deployments/cloudbuild/$REPO_NAME/$BRANCH_NAME/$BUILD_ID/'
     paths: ['_artifacts/*']
