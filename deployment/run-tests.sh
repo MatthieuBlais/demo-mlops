@@ -17,7 +17,6 @@ for folder in */; do
   if [ -d "$folder" ]; then
     echo "Testing component $folder..."
     cd $folder
-    pipenv shell
     pipenv install pytest pytest-cov --dev
     pipenv install -r requirements.txt
     pipenv run python -m pytest --cov app/

@@ -21,3 +21,7 @@ steps:
   entrypoint: /bin/bash
   args:
     - deployment/build-dockers.sh
+  env:
+    - 'BUILD_ID=$BUILD_ID'
+    - 'PROJECT_ID=$PROJECT_ID'
+    - 'SHORT_SHA=$SHORT_SHA'
