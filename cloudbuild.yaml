@@ -18,7 +18,7 @@ steps:
   args:
     - deployment/run-tests.sh
 - name: 'gcr.io/cloud-builders/docker'
-  entrypoint: /bin/sh
+  entrypoint: /bin/bash
   args:
     - deployment/build-dockers.sh
 # - name: 'gcr.io/cloud-builders/docker'

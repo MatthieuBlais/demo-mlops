@@ -12,6 +12,7 @@ cd components/
 for folder in */; do
   if [ -d "$folder" ]; then
     cd $folder
+    ls
     if [[ -f "Dockerfile" ]]; then
         echo "Building Docker image for component $folder..."
         image_name="${folder%?}"
