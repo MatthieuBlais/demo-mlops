@@ -13,15 +13,24 @@
 # limitations under the License.
 
 steps:
-# - name: 'python:3.8-slim'
-#   entrypoint: /bin/sh
-#   args:
-#     - deployment/run-tests.sh
+- name: 'python:3.8-slim'
+  entrypoint: /bin/bash
+  args:
+    - deployment/gcp/run-tests.sh
+  artifacts:
+    objects:
+      location: 'gs://$PROJECT_ID-mlops-deployment/cloudbuild/$REPO_NAME/$BRANCH_NAME/$BUILD_ID/'
+      paths: ['_artifacts/*']
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: /bin/bash
   args:
-    - deployment/build-dockers.sh
+    - deployment/gcp/build-dockers.sh
   env:
     - 'BRANCH_NAME=$BRANCH_NAME'
     - 'PROJECT_ID=$PROJECT_ID'
     - 'SHORT_SHA=$SHORT_SHA'
+    - 'REPO_NAME=$REPO_NAME'
+  artifacts:
+    objects:
+      location: 'gs://$PROJECT_ID-mlops-deployment/cloudbuild/$REPO_NAME/$BRANCH_NAME/$BUILD_ID/'
+      paths: ['_artifacts/*']

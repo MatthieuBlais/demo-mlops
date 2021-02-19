@@ -9,6 +9,9 @@ fi
 # Installing env segregation
 pip install pipenv
 
+# We save the list of docker images as artifact
+mkdir _artifacts
+
 cd components/
 
 # Looping through all components and execute pytest
@@ -21,9 +24,8 @@ for folder in */; do
     pipenv install -r requirements.txt
     pipenv run python -m pytest --cov app/
 
-    # Saving the coverage report and upload to storage
-    pipenv run coverage json --pretty-print -o coverage.json
-    #Save on GS
+    # Saving the coverage report in the artifact folder
+    pipenv run coverage json --pretty-print -o ../../_artifacts/${folder%?}-coverage.json
 
     cd ..
   fi
