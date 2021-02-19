@@ -13,15 +13,15 @@
 # limitations under the License.
 
 steps:
-- name: 'python:3.8-slim'
-  entrypoint: /bin/sh
-  args:
-    - deployment/run-tests.sh
+# - name: 'python:3.8-slim'
+#   entrypoint: /bin/sh
+#   args:
+#     - deployment/run-tests.sh
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: /bin/bash
   args:
     - deployment/build-dockers.sh
   env:
-    - 'BUILD_ID=$BUILD_ID'
+    - 'BRANCH_NAME=$BRANCH_NAME'
     - 'PROJECT_ID=$PROJECT_ID'
     - 'SHORT_SHA=$SHORT_SHA'
