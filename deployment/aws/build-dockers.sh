@@ -12,10 +12,13 @@ touch _artifacts/images.txt
 cd components/
 
 export BRANCH_NAME=`git symbolic-ref HEAD --short 2>/dev/null`
+if [ "$BRANCH_NAME" == "" ] ; then
+  BRANCH_NAME=`git branch -a --contains HEAD | sed -n 2p | awk '{ printf $1 }'`
+  export BRANCH_NAME=${BRANCH_NAME#remotes/origin/}
+fi
 
 echo "REPO_NAME: $PROJECT_NAME"
 echo "BRANCH_NAME: $BRANCH_NAME"
-echo "WEBHOOK: $CODEBUILD_WEBHOOK_BASE_REF"
 
 # Looping through all components and build if there is a Dockerfile
 for folder in */; do

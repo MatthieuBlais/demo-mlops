@@ -80,7 +80,7 @@ Resources:
           artifacts:
             files:
               - "_artifacts/*"
-            name: $CODEBUILD_WEBHOOK_BASE_REF/$(date +%Y-%m-%d_%H:%M:%S)/$CODEBUILD_BUILD_ID
+            name: $BRANCH_NAME/$(date +%Y-%m-%d_%H:%M:%S)/$CODEBUILD_BUILD_ID
 
   CodebuildServiceRole:
     Type: AWS::IAM::Role
