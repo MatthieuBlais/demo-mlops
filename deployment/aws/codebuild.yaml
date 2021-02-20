@@ -64,7 +64,7 @@ Resources:
               runtime-versions:
                 python: 3.8
               commands:
-                - pip3 install pipenv pytest pytest-cov
+                - pip3 install pipenv
             build:
               commands:
                 - mkdir _artifacts
