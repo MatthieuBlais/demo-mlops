@@ -17,6 +17,8 @@ Resources:
   DeployerCodeBuild:
     Type: "AWS::CodeBuild::Project"
     Properties:
+      Artifacts:
+        Type: NO_ARTIFACTS
       Name: !Sub "${RepositoryName}-build"
       Description: !Sub "Build ${RepositoryName}"
       Cache:
