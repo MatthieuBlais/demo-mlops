@@ -18,13 +18,6 @@ Resources:
     Type: "AWS::CodeBuild::Project"
     Properties:
       Name: !Sub "${RepositoryName}-build"
-      Artifacts:
-        Location: !Ref DeploymentBucket
-        Name: "/"
-        NamespaceType: NONE
-        Packaging: NONE
-        Path: !Sub "codebuild/${RepositoryName}"
-        Type: S3
       Description: !Sub "Build ${RepositoryName}"
       Cache:
         Modes:
@@ -74,15 +67,12 @@ Resources:
                 - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
                 - /bin/bash deployment/aws/run-tests.sh
                 - /bin/bash deployment/aws/build-dockers.sh
+                - aws s3 cp _artifacts/ s3://$DEPLOYMENT_BUCKET/codebuild/$PROJECT_NAME/$BRANCH_NAME/$(date +%Y-%m-%d_%H:%M:%S)/$CODEBUILD_BUILD_ID/ --recursive
           reports:
             pytest-reports:
               files:
                 - "_reports/*.xml"
               file-format: JUNITXML
-          artifacts:
-            files:
-              - "_artifacts/*"
-            name: $BRANCH_NAME/$(date +%Y-%m-%d_%H:%M:%S)/$CODEBUILD_BUILD_ID
 
   CodebuildServiceRole:
     Type: AWS::IAM::Role
