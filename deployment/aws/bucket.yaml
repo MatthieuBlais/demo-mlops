@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Bucket for artifact storage
+
+Parameters:
+
+  DeploymentArtifactBucket:
+    Type: String
+  
+Resources:
+
+  DeploymentArtifactBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Ref DeploymentArtifactBucket
+      BucketEncryption: 
+        ServerSideEncryptionConfiguration: 
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LifecycleConfiguration:
+        Rules:
+          - NoncurrentVersionExpirationInDays: 3
+            Status: Enabled
+      VersioningConfiguration:
+        Status: Enabled
+
+Outputs:
+
+  DeploymentArtifactBucket:
+      Value: !Ref DeploymentArtifactBucket
+      Description: S3 bucket for artifacts
