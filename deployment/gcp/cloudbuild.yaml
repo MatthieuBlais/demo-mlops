@@ -31,17 +31,23 @@ artifacts:
     location: 'gs://$PROJECT_ID-mlops-deployments/cloudbuild/$REPO_NAME/$BRANCH_NAME/$(date +%Y-%m-%d_%H:%M:%S)/$BUILD_ID/'
     paths: ['_artifacts/*']
 
+#
+# (Optional) For inline Cloud Build. 
+#
 # steps:
 # - name: 'gcr.io/cloud-builders/gcloud'
 #   entrypoint: /bin/bash
 #   args:
 #     - -c
-#     - mkdir _deployment && gsutil rsync gs://freeldom-mlops-deployments/_scripts _deployment && /bin/bash _deployment/run-tests.sh
+#     - mkdir _deployment && gsutil rsync gs://$PROJECT_ID-mlops-deployments/_scripts _deployment
+# - name: 'python:3.8-slim'
+#   entrypoint: /bin/bash
+#   args:
+#     - _deployment/run-tests.sh
 # - name: 'gcr.io/cloud-builders/docker'
 #   entrypoint: /bin/bash
 #   args:
-#     - -c
-#     - mkdir _deployment && gsutil rsync gs://freeldom-mlops-deployments/_scripts _deployment && /bin/bash _deployment/build-dockers.sh
+#     - _deployment/build-dockers.sh
 #   env:
 #     - 'BRANCH_NAME=$BRANCH_NAME'
 #     - 'PROJECT_ID=$PROJECT_ID'
