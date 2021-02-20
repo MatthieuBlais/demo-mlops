@@ -16,11 +16,10 @@ for folder in */; do
     cd $folder
     pipenv install pytest pytest-cov --dev
     pipenv install -r requirements.txt
-    pipenv run python -m pytest --cov app/
+    pipenv run python -m pytest --junitxml=../../_reports/${folder%?}-coverage.xml --cov app/
 
     # Saving the coverage report in the artifact folder
     pipenv run coverage json --pretty-print -o ../../_artifacts/${folder%?}-coverage.json
-    pipenv run python -m pytest --junitxml=../../_reports/${folder%?}-coverage.xml app
 
     cd ..
   fi
