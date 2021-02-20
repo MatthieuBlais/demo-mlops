@@ -14,8 +14,9 @@ for folder in */; do
   if [ -d "$folder" ]; then
     echo "Testing component $folder..."
     cd $folder
-    pipenv install pytest pytest-cov --dev
+    # Install component requirements
     pipenv install -r requirements.txt
+    # Running Pytest
     pipenv run python -m pytest --junitxml=../../_reports/${folder%?}-coverage.xml --cov app/
 
     # Saving the coverage report in the artifact folder

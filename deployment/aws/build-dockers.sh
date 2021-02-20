@@ -6,10 +6,6 @@ if [ ! -d "components" ]; then
     exit 1
 fi
 
-# We save the list of docker images as artifact
-
-cd components/
-
 export BRANCH_NAME=`git symbolic-ref HEAD --short 2>/dev/null`
 if [ "$BRANCH_NAME" == "" ] ; then
   BRANCH_NAME=`git branch -a --contains HEAD | sed -n 2p | awk '{ printf $1 }'`
@@ -20,6 +16,8 @@ echo "REPO_NAME: $PROJECT_NAME"
 echo "BRANCH_NAME: $BRANCH_NAME"
 
 mkdir _artifacts/$BRANCH_NAME && touch _artifacts/$BRANCH_NAME/images.txt
+
+cd components/
 
 # Looping through all components and build if there is a Dockerfile
 for folder in */; do
