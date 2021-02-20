@@ -69,7 +69,6 @@ Resources:
               commands:
                 - mkdir _artifacts
                 - mkdir _reports
-                - export BRANCH_NAME=`git symbolic-ref HEAD --short 2>/dev/null`
                 - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
                 - /bin/bash deployment/aws/run-tests.sh
                 - /bin/bash deployment/aws/build-dockers.sh
@@ -81,7 +80,7 @@ Resources:
           artifacts:
             files:
               - "_artifacts/*"
-            name: $BRANCH_NAME/$(date +%Y-%m-%d_%H:%M:%S)/$CODEBUILD_BUILD_ID
+            name: $CODEBUILD_WEBHOOK_BASE_REF/$(date +%Y-%m-%d_%H:%M:%S)/$CODEBUILD_BUILD_ID
 
   CodebuildServiceRole:
     Type: AWS::IAM::Role
@@ -113,6 +112,8 @@ Resources:
                 Action:
                   - codebuild:CreateReportGroup
                   - codebuild:CreateReport
+                  - codebuild:BatchPutTestCases
+                  - codebuild:UpdateReport
                 Resource:
                   - !Sub 'arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:report-group/${RepositoryName}-build-pytest-reports'
               - Effect: Allow
