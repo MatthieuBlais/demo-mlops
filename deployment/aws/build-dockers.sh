@@ -6,18 +6,11 @@ if [ ! -d "components" ]; then
     exit 1
 fi
 
-# Infering branch name
-export BRANCH_NAME=`git symbolic-ref HEAD --short 2>/dev/null`
-if [ "$BRANCH_NAME" == "" ] ; then
-  BRANCH_NAME=`git branch -a --contains HEAD | sed -n 2p | awk '{ printf $1 }'`
-  export BRANCH_NAME=${BRANCH_NAME#remotes/origin/}
-fi
-
 echo "REPO_NAME: $PROJECT_NAME"
 echo "BRANCH_NAME: $BRANCH_NAME"
 
 # Folder has been created by pytest script
-touch _artifacts/$BRANCH_NAME/images.txt
+touch _artifacts/images.txt
 
 cd components/
 
@@ -32,7 +25,7 @@ for folder in */; do
         aws ecr describe-repositories --repository-names $PROJECT_NAME/$image_name || aws ecr create-repository --repository-name $PROJECT_NAME/$image_name
         docker build -t $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME/$image_name:$BRANCH_NAME-$CODEBUILD_BUILD_NUMBER -t $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME/$image_name:$BRANCH_NAME-latest .
         docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME/$image_name
-        echo "$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME/$image_name:$BRANCH_NAME-$CODEBUILD_BUILD_NUMBER" >> ../../_artifacts/$BRANCH_NAME/images.txt
+        echo "$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME/$image_name:$BRANCH_NAME-$CODEBUILD_BUILD_NUMBER" >> ../../_artifacts/images.txt
     else
         echo "No Dockerfile for component $folder. Skipping"
     fi

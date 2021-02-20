@@ -65,6 +65,7 @@ Resources:
                 python: 3.8
               commands:
                 - pip3 install pipenv
+                - /bin/bash deployment/aws/export-branch.sh
             build:
               commands:
                 - mkdir _artifacts
