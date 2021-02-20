@@ -46,10 +46,16 @@ Resources:
           Type: PLAINTEXT
           Value: !Ref DeploymentBucket
       ServiceRole: !Ref CodebuildServiceRole
+      Triggers:
+        FilterGroups:
+        - - Pattern: PUSH
+            Type: EVENT
+        Webhook: true
       Source:
         Auth:
           Type: OAUTH
         Type: GITHUB
+        GitCloneDepth: 1
         Location: !Ref RepoCloneUrl
         BuildSpec: |
           version: 0.2
@@ -68,14 +74,14 @@ Resources:
                 - /bin/bash deployment/aws/run-tests.sh
                 - /bin/bash deployment/aws/build-dockers.sh
           reports:
-            pytest_reports:
+            pytest-reports:
               files:
                 - "_reports/*.xml"
               file-format: JUNITXML
           artifacts:
             files:
               - "_artifacts/*"
-            name: $BRANCH_NAME/$(date +%Y-%m-%d-%H-%M-%S)/$CODEBUILD_BUILD_ID
+            name: $BRANCH_NAME/$(date +%Y-%m-%d_%H:%M:%S)/$CODEBUILD_BUILD_ID
 
   CodebuildServiceRole:
     Type: AWS::IAM::Role
@@ -103,6 +109,11 @@ Resources:
                   - logs:PutLogEvents
                 Resource:
                   - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${RepositoryName}-build:*'
+              - Effect: Allow
+                Action:
+                  - codebuild:CreateReportGroup
+                Resource:
+                  - !Sub 'arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:report-group/${RepositoryName}-build-pytest-reports'
               - Effect: Allow
                 Action:
                   - 's3:List*'
