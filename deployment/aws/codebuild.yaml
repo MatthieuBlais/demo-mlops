@@ -65,9 +65,10 @@ Resources:
                 python: 3.8
               commands:
                 - pip3 install pipenv
-                - /bin/bash deployment/aws/export-branch.sh
+                - . ./deployment/aws/export-branch.sh
             build:
               commands:
+                - echo $BRANCH_NAME
                 - mkdir _artifacts
                 - mkdir _reports
                 - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
