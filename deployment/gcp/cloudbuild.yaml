@@ -36,12 +36,12 @@ artifacts:
 #   entrypoint: /bin/bash
 #   args:
 #     - -c
-#     - mkdir deployment && gsutil rsync gs://freeldom-mlops-deployments/_scripts deployment && /bin/bash deployment/run-tests.sh
+#     - mkdir _deployment && gsutil rsync gs://freeldom-mlops-deployments/_scripts _deployment && /bin/bash _deployment/run-tests.sh
 # - name: 'gcr.io/cloud-builders/docker'
 #   entrypoint: /bin/bash
 #   args:
 #     - -c
-#     - mkdir deployment && gsutil rsync gs://freeldom-mlops-deployments/_scripts deployment && /bin/bash deployment/build-dockers.sh
+#     - mkdir _deployment && gsutil rsync gs://freeldom-mlops-deployments/_scripts _deployment && /bin/bash _deployment/build-dockers.sh
 #   env:
 #     - 'BRANCH_NAME=$BRANCH_NAME'
 #     - 'PROJECT_ID=$PROJECT_ID'

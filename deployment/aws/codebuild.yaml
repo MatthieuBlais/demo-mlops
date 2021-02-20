@@ -61,14 +61,14 @@ Resources:
                 python: 3.8
               commands:
                 - pip3 install pipenv
-                - . ./deployment/aws/export-branch.sh
+                - aws s3 cp s3://$DEPLOYMENT_BUCKET/_scripts/ _deployment/ --recursive
+                - . ./_deployment/export-branch.sh
             build:
               commands:
-                - aws s3 cp s3://$DEPLOYMENT_BUCKET/_scripts/ deployment/ --recursive
                 - mkdir _artifacts && mkdir _reports
                 - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-                - /bin/bash deployment/run-tests.sh
-                - /bin/bash deployment/build-dockers.sh
+                - /bin/bash _deployment/run-tests.sh
+                - /bin/bash _deployment/build-dockers.sh
                 - aws s3 cp _artifacts/ s3://$DEPLOYMENT_BUCKET/codebuild/$PROJECT_NAME/$BRANCH_NAME/$(date +%Y-%m-%d_%H:%M:%S)/$CODEBUILD_BUILD_ID/ --recursive
           reports:
             pytest-reports:
