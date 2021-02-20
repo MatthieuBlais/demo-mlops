@@ -30,3 +30,25 @@ artifacts:
   objects:
     location: 'gs://$PROJECT_ID-mlops-deployments/cloudbuild/$REPO_NAME/$BRANCH_NAME/$(date +%Y-%m-%d_%H:%M:%S)/$BUILD_ID/'
     paths: ['_artifacts/*']
+
+# steps:
+# - name: 'gcr.io/cloud-builders/gcloud'
+#   entrypoint: /bin/bash
+#   args:
+#     - -c
+#     - gsutil cp -r gs://$PROJECT_ID-mlops-deployments/_scripts/ deployment/ && /bin/bash deployment/run-tests.sh
+# - name: 'gcr.io/cloud-builders/docker'
+#   entrypoint: /bin/bash
+#   args:
+#     - -c
+#     - gsutil cp -r gs://$PROJECT_ID-mlops-deployments/_scripts/ deployment/ && /bin/bash deployment/build-dockers.sh
+#   env:
+#     - 'BRANCH_NAME=$BRANCH_NAME'
+#     - 'PROJECT_ID=$PROJECT_ID'
+#     - 'SHORT_SHA=$SHORT_SHA'
+#     - 'REPO_NAME=$REPO_NAME'
+# artifacts:
+#   objects:
+#     location: 'gs://$PROJECT_ID-mlops-deployments/cloudbuild/$REPO_NAME/$BRANCH_NAME/$(date +%Y-%m-%d_%H:%M:%S)/$BUILD_ID/'
+#     paths: ['_artifacts/*']
+
