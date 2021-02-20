@@ -112,6 +112,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - codebuild:CreateReportGroup
+                  - codebuild:CreateReport
                 Resource:
                   - !Sub 'arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:report-group/${RepositoryName}-build-pytest-reports'
               - Effect: Allow
@@ -142,7 +143,7 @@ Resources:
                   - ecr:ListImages
                   - ecr:DescribeImages
                   - ecr:DescribeRepositories
-                  - ecr:CreateRepositories
+                  - ecr:CreateRepository
                   - ecr:InitiateLayerUpload
                   - ecr:UploadLayerPart
                   - ecr:CompleteLayerUpload
