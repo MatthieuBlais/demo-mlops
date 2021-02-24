@@ -6,15 +6,11 @@ COPY requirements.txt .
 
 RUN pip3 install -r requirements.txt
 
-COPY service.py .
-
-RUN pip3 install Flask
-
 WORKDIR /app
 
 COPY app/ .
 
-ENTRYPOINT [ "python3", "../service.py" ]
+ENTRYPOINT [ "/bin/bash" ]
 
 
 
